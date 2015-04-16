@@ -5,10 +5,14 @@ import inspect
 import logging
 import logging.handlers
 import random
+import sys
 
 logger = logging.getLogger("collective.tarpit")
+address = "/dev/log"
+if sys.platform == "darwin":
+    address = "/var/run/syslog"
 hdlr = logging.handlers.SysLogHandler(
-        address="/dev/log",
+        address=address,
         facility=logging.handlers.SysLogHandler.LOG_AUTH,
         )
 # formatter = logging.Formatter('plone: %(message)s')
@@ -72,4 +76,3 @@ class AuthenticationPlugin(BasePlugin):
             logger.warning(message)
 
         return None
-
